@@ -86,7 +86,9 @@ router.beforeEach((to, _from, next) => {
 
     // Check role-based access
     if (to.meta.roles && Array.isArray(to.meta.roles)) {
-      const hasRequiredRole = authStore.hasAnyRole(to.meta.roles as Array<'admin' | 'manager' | 'worker'>);
+      const hasRequiredRole = authStore.hasAnyRole(
+        to.meta.roles as Array<'admin' | 'manager' | 'worker'>
+      );
 
       if (!hasRequiredRole) {
         // User doesn't have required role
@@ -110,7 +112,7 @@ router.beforeEach((to, _from, next) => {
 // After each navigation
 router.afterEach((to) => {
   // Update document title
-  const title = to.meta.title as string || 'Mobile Report App';
+  const title = (to.meta.title as string) || 'Mobile Report App';
   document.title = title;
 });
 

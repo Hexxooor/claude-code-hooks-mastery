@@ -37,7 +37,7 @@ export class MobileReportDatabase extends Dexie {
     });
 
     // Hook to generate IDs if not provided
-    this.users.hook('creating', function(_primKey, obj) {
+    this.users.hook('creating', function (_primKey, obj) {
       if (!obj.id) {
         obj.id = generateId();
       }
@@ -46,7 +46,7 @@ export class MobileReportDatabase extends Dexie {
       }
     });
 
-    this.orders.hook('creating', function(_primKey, obj) {
+    this.orders.hook('creating', function (_primKey, obj) {
       if (!obj.id) {
         obj.id = generateId();
       }
@@ -55,7 +55,7 @@ export class MobileReportDatabase extends Dexie {
       }
     });
 
-    this.timeEntries.hook('creating', function(_primKey, obj) {
+    this.timeEntries.hook('creating', function (_primKey, obj) {
       if (!obj.id) {
         obj.id = generateId();
       }
@@ -67,7 +67,7 @@ export class MobileReportDatabase extends Dexie {
       }
     });
 
-    this.reports.hook('creating', function(_primKey, obj) {
+    this.reports.hook('creating', function (_primKey, obj) {
       if (!obj.id) {
         obj.id = generateId();
       }
@@ -89,7 +89,7 @@ export class MobileReportDatabase extends Dexie {
       }
     });
 
-    this.photos.hook('creating', function(_primKey, obj) {
+    this.photos.hook('creating', function (_primKey, obj) {
       if (!obj.id) {
         obj.id = generateId();
       }
@@ -98,7 +98,7 @@ export class MobileReportDatabase extends Dexie {
       }
     });
 
-    this.materials.hook('creating', function(_primKey, obj) {
+    this.materials.hook('creating', function (_primKey, obj) {
       if (!obj.id) {
         obj.id = generateId();
       }
@@ -109,32 +109,29 @@ export class MobileReportDatabase extends Dexie {
     });
 
     // Hook for updating timestamps
-    this.timeEntries.hook('updating', function(modifications: any) {
+    this.timeEntries.hook('updating', function (modifications: any) {
       modifications.updatedAt = new Date();
     });
 
-    this.reports.hook('updating', function(modifications: any) {
+    this.reports.hook('updating', function (modifications: any) {
       modifications.updatedAt = new Date();
     });
   }
 
   // Clear all data (useful for testing and development)
   async clearAllData(): Promise<void> {
-    await this.transaction('rw', [
-      this.users,
-      this.orders,
-      this.timeEntries,
-      this.reports,
-      this.photos,
-      this.materials
-    ], async () => {
-      await this.users.clear();
-      await this.orders.clear();
-      await this.timeEntries.clear();
-      await this.reports.clear();
-      await this.photos.clear();
-      await this.materials.clear();
-    });
+    await this.transaction(
+      'rw',
+      [this.users, this.orders, this.timeEntries, this.reports, this.photos, this.materials],
+      async () => {
+        await this.users.clear();
+        await this.orders.clear();
+        await this.timeEntries.clear();
+        await this.reports.clear();
+        await this.photos.clear();
+        await this.materials.clear();
+      }
+    );
   }
 
   // Get database statistics

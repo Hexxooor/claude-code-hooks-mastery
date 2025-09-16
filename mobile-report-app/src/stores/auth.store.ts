@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Check if user has any of the specified roles
   const hasAnyRole = (roles: Array<'admin' | 'manager' | 'worker'>): boolean => {
-    return roles.some(role => hasRole(role));
+    return roles.some((role) => hasRole(role));
   };
 
   // Actions
@@ -167,7 +167,7 @@ export const useAuthStore = defineStore('auth', () => {
       const now = Date.now();
 
       // Refresh 5 minutes before expiry
-      const refreshTime = expiryTime - now - (5 * 60 * 1000);
+      const refreshTime = expiryTime - now - 5 * 60 * 1000;
 
       if (refreshTime > 0) {
         setTimeout(() => {

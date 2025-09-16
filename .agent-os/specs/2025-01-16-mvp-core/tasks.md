@@ -31,7 +31,7 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
 ### Phase 2: User Management & Orders (Week 2)
 **Sprint Goal**: Core user management and order viewing functionality
 
-- [ ] **T004: User Management Interface** (2 days)
+- [x] **T004: User Management Interface** (2 days)
   - Create admin panel for user creation
   - Implement user role management (admin, manager, worker)
   - Add user listing with edit/delete functionality

@@ -14,23 +14,23 @@ class ReportService extends BaseCrudService<Report> {
     let query = this.table.toCollection();
 
     if (filter.orderId) {
-      query = query.filter(report => report.orderId === filter.orderId);
+      query = query.filter((report) => report.orderId === filter.orderId);
     }
 
     if (filter.userId) {
-      query = query.filter(report => report.userId === filter.userId);
+      query = query.filter((report) => report.userId === filter.userId);
     }
 
     if (filter.status) {
-      query = query.filter(report => report.status === filter.status);
+      query = query.filter((report) => report.status === filter.status);
     }
 
     if (filter.dateFrom) {
-      query = query.filter(report => report.createdAt >= filter.dateFrom!);
+      query = query.filter((report) => report.createdAt >= filter.dateFrom!);
     }
 
     if (filter.dateTo) {
-      query = query.filter(report => report.createdAt <= filter.dateTo!);
+      query = query.filter((report) => report.createdAt <= filter.dateTo!);
     }
 
     return await query.toArray();
@@ -40,30 +40,21 @@ class ReportService extends BaseCrudService<Report> {
    * Get reports for a specific order
    */
   async getByOrderId(orderId: string): Promise<Report[]> {
-    return await this.table
-      .where('orderId')
-      .equals(orderId)
-      .toArray();
+    return await this.table.where('orderId').equals(orderId).toArray();
   }
 
   /**
    * Get reports created by a specific user
    */
   async getByUserId(userId: string): Promise<Report[]> {
-    return await this.table
-      .where('userId')
-      .equals(userId)
-      .toArray();
+    return await this.table.where('userId').equals(userId).toArray();
   }
 
   /**
    * Get reports by status
    */
   async getByStatus(status: Report['status']): Promise<Report[]> {
-    return await this.table
-      .where('status')
-      .equals(status)
-      .toArray();
+    return await this.table.where('status').equals(status).toArray();
   }
 
   /**
@@ -128,7 +119,7 @@ class ReportService extends BaseCrudService<Report> {
     await db.photos.delete(photoId);
 
     // Update report
-    const updatedPhotos = report.photos.filter(p => p.id !== photoId);
+    const updatedPhotos = report.photos.filter((p) => p.id !== photoId);
     return await this.update(reportId, { photos: updatedPhotos });
   }
 
@@ -172,7 +163,7 @@ class ReportService extends BaseCrudService<Report> {
     await db.materials.delete(materialId);
 
     // Update report
-    const updatedMaterials = report.materials.filter(m => m.id !== materialId);
+    const updatedMaterials = report.materials.filter((m) => m.id !== materialId);
     return await this.update(reportId, { materials: updatedMaterials });
   }
 
@@ -187,7 +178,7 @@ class ReportService extends BaseCrudService<Report> {
 
     // Merge with existing time entries (avoid duplicates)
     const existingIds = new Set(report.timeEntries);
-    const newIds = timeEntryIds.filter(id => !existingIds.has(id));
+    const newIds = timeEntryIds.filter((id) => !existingIds.has(id));
     const updatedTimeEntries = [...report.timeEntries, ...newIds];
 
     return await this.update(reportId, { timeEntries: updatedTimeEntries });
@@ -196,11 +187,7 @@ class ReportService extends BaseCrudService<Report> {
   /**
    * Add customer signature to a report
    */
-  async addSignature(
-    reportId: string,
-    signature: string,
-    customerName: string
-  ): Promise<Report> {
+  async addSignature(reportId: string, signature: string, customerName: string): Promise<Report> {
     return await this.update(reportId, {
       customerSignature: signature,
       customerName,
@@ -278,12 +265,12 @@ class ReportService extends BaseCrudService<Report> {
 
     return {
       total: all.length,
-      draft: all.filter(r => r.status === 'draft').length,
-      submitted: all.filter(r => r.status === 'submitted').length,
-      approved: all.filter(r => r.status === 'approved').length,
-      signed: all.filter(r => r.customerSignature).length,
-      withPhotos: all.filter(r => r.photos.length > 0).length,
-      withMaterials: all.filter(r => r.materials.length > 0).length,
+      draft: all.filter((r) => r.status === 'draft').length,
+      submitted: all.filter((r) => r.status === 'submitted').length,
+      approved: all.filter((r) => r.status === 'approved').length,
+      signed: all.filter((r) => r.customerSignature).length,
+      withPhotos: all.filter((r) => r.photos.length > 0).length,
+      withMaterials: all.filter((r) => r.materials.length > 0).length,
     };
   }
 

@@ -11,39 +11,28 @@ class UserService extends BaseCrudService<User> {
    * Get user by username
    */
   async getByUsername(username: string): Promise<User | undefined> {
-    return await this.table
-      .where('username')
-      .equals(username)
-      .first();
+    return await this.table.where('username').equals(username).first();
   }
 
   /**
    * Get user by email
    */
   async getByEmail(email: string): Promise<User | undefined> {
-    return await this.table
-      .where('email')
-      .equals(email)
-      .first();
+    return await this.table.where('email').equals(email).first();
   }
 
   /**
    * Get users by role
    */
   async getByRole(role: User['role']): Promise<User[]> {
-    return await this.table
-      .where('role')
-      .equals(role)
-      .toArray();
+    return await this.table.where('role').equals(role).toArray();
   }
 
   /**
    * Get active users
    */
   async getActiveUsers(): Promise<User[]> {
-    return await this.table
-      .filter(user => user.isActive === true)
-      .toArray();
+    return await this.table.filter((user) => user.isActive === true).toArray();
   }
 
   /**
@@ -82,11 +71,11 @@ class UserService extends BaseCrudService<User> {
 
     return {
       total: all.length,
-      active: all.filter(u => u.isActive).length,
-      inactive: all.filter(u => !u.isActive).length,
-      admins: all.filter(u => u.role === 'admin').length,
-      managers: all.filter(u => u.role === 'manager').length,
-      workers: all.filter(u => u.role === 'worker').length,
+      active: all.filter((u) => u.isActive).length,
+      inactive: all.filter((u) => !u.isActive).length,
+      admins: all.filter((u) => u.role === 'admin').length,
+      managers: all.filter((u) => u.role === 'manager').length,
+      workers: all.filter((u) => u.role === 'worker').length,
     };
   }
 

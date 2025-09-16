@@ -24,7 +24,7 @@ export abstract class BaseCrudService<T> {
    */
   async createMany(data: T[]): Promise<T[]> {
     const ids = await this.table.bulkAdd(data, { allKeys: true });
-    const created = await Promise.all(ids.map(id => this.table.get(id)));
+    const created = await Promise.all(ids.map((id) => this.table.get(id)));
     return created.filter((item) => item !== undefined) as T[];
   }
 
@@ -45,7 +45,10 @@ export abstract class BaseCrudService<T> {
   /**
    * Get entities with pagination
    */
-  async getPaginated(page: number = 1, pageSize: number = 10): Promise<{
+  async getPaginated(
+    page: number = 1,
+    pageSize: number = 10
+  ): Promise<{
     data: T[];
     total: number;
     page: number;
@@ -56,10 +59,7 @@ export abstract class BaseCrudService<T> {
     const totalPages = Math.ceil(total / pageSize);
     const offset = (page - 1) * pageSize;
 
-    const data = await this.table
-      .offset(offset)
-      .limit(pageSize)
-      .toArray();
+    const data = await this.table.offset(offset).limit(pageSize).toArray();
 
     return {
       data,

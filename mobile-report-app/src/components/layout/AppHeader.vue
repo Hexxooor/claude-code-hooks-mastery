@@ -50,17 +50,18 @@
           <div class="ml-3 relative">
             <div>
               <button
-                @click="showDropdown = !showDropdown"
+                id="user-menu-button"
                 type="button"
                 class="bg-white flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                id="user-menu-button"
                 aria-expanded="false"
                 aria-haspopup="true"
+                @click="showDropdown = !showDropdown"
               >
                 <span class="sr-only">Open user menu</span>
                 <div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center">
                   <span class="text-white text-sm font-medium">
-                    {{ authStore.user?.firstName?.charAt(0) }}{{ authStore.user?.lastName?.charAt(0) }}
+                    {{ authStore.user?.firstName?.charAt(0)
+                    }}{{ authStore.user?.lastName?.charAt(0) }}
                   </span>
                 </div>
               </button>
@@ -88,21 +89,21 @@
                   <div class="text-gray-500">{{ authStore.userRole }}</div>
                 </div>
                 <router-link
+                  id="user-menu-item-0"
                   to="/profile"
-                  @click="showDropdown = false"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   role="menuitem"
                   tabindex="-1"
-                  id="user-menu-item-0"
+                  @click="showDropdown = false"
                 >
                   Your Profile
                 </router-link>
                 <button
-                  @click="handleLogout"
+                  id="user-menu-item-2"
                   class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   role="menuitem"
                   tabindex="-1"
-                  id="user-menu-item-2"
+                  @click="handleLogout"
                 >
                   Sign out
                 </button>
@@ -114,36 +115,46 @@
         <!-- Mobile menu button -->
         <div class="-mr-2 flex items-center sm:hidden">
           <button
-            @click="showMobileMenu = !showMobileMenu"
             type="button"
             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
             aria-controls="mobile-menu"
             aria-expanded="false"
+            @click="showMobileMenu = !showMobileMenu"
           >
             <span class="sr-only">Open main menu</span>
             <!-- Icon when menu is closed -->
             <svg
               class="block h-6 w-6"
-              :class="{ 'hidden': showMobileMenu, 'block': !showMobileMenu }"
+              :class="{ hidden: showMobileMenu, block: !showMobileMenu }"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
               aria-hidden="true"
             >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
             <!-- Icon when menu is open -->
             <svg
               class="h-6 w-6"
-              :class="{ 'block': showMobileMenu, 'hidden': !showMobileMenu }"
+              :class="{ block: showMobileMenu, hidden: !showMobileMenu }"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
               aria-hidden="true"
             >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -151,46 +162,52 @@
     </div>
 
     <!-- Mobile menu -->
-    <div class="sm:hidden" :class="{ 'block': showMobileMenu, 'hidden': !showMobileMenu }" id="mobile-menu">
+    <div
+      id="mobile-menu"
+      class="sm:hidden"
+      :class="{ block: showMobileMenu, hidden: !showMobileMenu }"
+    >
       <div class="pt-2 pb-3 space-y-1">
         <router-link
           to="/dashboard"
-          @click="showMobileMenu = false"
           class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           :class="{ 'bg-indigo-50 border-indigo-500 text-indigo-700': $route.name === 'dashboard' }"
+          @click="showMobileMenu = false"
         >
           Dashboard
         </router-link>
         <router-link
           to="/orders"
-          @click="showMobileMenu = false"
           class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           :class="{ 'bg-indigo-50 border-indigo-500 text-indigo-700': $route.name === 'orders' }"
+          @click="showMobileMenu = false"
         >
           Orders
         </router-link>
         <router-link
           to="/time-tracking"
-          @click="showMobileMenu = false"
           class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          :class="{ 'bg-indigo-50 border-indigo-500 text-indigo-700': $route.name === 'time-tracking' }"
+          :class="{
+            'bg-indigo-50 border-indigo-500 text-indigo-700': $route.name === 'time-tracking',
+          }"
+          @click="showMobileMenu = false"
         >
           Time Tracking
         </router-link>
         <router-link
           to="/reports"
-          @click="showMobileMenu = false"
           class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           :class="{ 'bg-indigo-50 border-indigo-500 text-indigo-700': $route.name === 'reports' }"
+          @click="showMobileMenu = false"
         >
           Reports
         </router-link>
         <router-link
           v-if="authStore.hasRole('admin')"
           to="/users"
-          @click="showMobileMenu = false"
           class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           :class="{ 'bg-indigo-50 border-indigo-500 text-indigo-700': $route.name === 'users' }"
+          @click="showMobileMenu = false"
         >
           Users
         </router-link>
@@ -212,14 +229,14 @@
         <div class="mt-3 space-y-1">
           <router-link
             to="/profile"
-            @click="showMobileMenu = false"
             class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+            @click="showMobileMenu = false"
           >
             Your Profile
           </router-link>
           <button
-            @click="handleLogout"
             class="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+            @click="handleLogout"
           >
             Sign out
           </button>

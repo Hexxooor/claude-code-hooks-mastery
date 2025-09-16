@@ -14,23 +14,23 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
     let query = this.table.toCollection();
 
     if (filter.userId) {
-      query = query.filter(entry => entry.userId === filter.userId);
+      query = query.filter((entry) => entry.userId === filter.userId);
     }
 
     if (filter.orderId) {
-      query = query.filter(entry => entry.orderId === filter.orderId);
+      query = query.filter((entry) => entry.orderId === filter.orderId);
     }
 
     if (filter.isManual !== undefined) {
-      query = query.filter(entry => entry.isManual === filter.isManual);
+      query = query.filter((entry) => entry.isManual === filter.isManual);
     }
 
     if (filter.dateFrom) {
-      query = query.filter(entry => entry.startTime >= filter.dateFrom!);
+      query = query.filter((entry) => entry.startTime >= filter.dateFrom!);
     }
 
     if (filter.dateTo) {
-      query = query.filter(entry => entry.startTime <= filter.dateTo!);
+      query = query.filter((entry) => entry.startTime <= filter.dateTo!);
     }
 
     return await query.toArray();
@@ -40,20 +40,14 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
    * Get time entries for a specific user
    */
   async getByUserId(userId: string): Promise<TimeEntry[]> {
-    return await this.table
-      .where('userId')
-      .equals(userId)
-      .toArray();
+    return await this.table.where('userId').equals(userId).toArray();
   }
 
   /**
    * Get time entries for a specific order
    */
   async getByOrderId(orderId: string): Promise<TimeEntry[]> {
-    return await this.table
-      .where('orderId')
-      .equals(orderId)
-      .toArray();
+    return await this.table.where('orderId').equals(orderId).toArray();
   }
 
   /**
@@ -63,7 +57,7 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
     const entries = await this.table
       .where('userId')
       .equals(userId)
-      .filter(entry => !entry.endTime)
+      .filter((entry) => !entry.endTime)
       .toArray();
 
     return entries[0]; // Should only be one active entry per user
@@ -146,13 +140,11 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
    * Get time entries for a date range
    */
   async getByDateRange(startDate: Date, endDate: Date, userId?: string): Promise<TimeEntry[]> {
-    let query = this.table
-      .where('startTime')
-      .between(startDate, endDate);
+    const query = this.table.where('startTime').between(startDate, endDate);
 
     if (userId) {
       const entries = await query.toArray();
-      return entries.filter(entry => entry.userId === userId);
+      return entries.filter((entry) => entry.userId === userId);
     }
 
     return await query.toArray();
@@ -173,11 +165,11 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
     let entries = await this.getByUserId(userId);
 
     if (startDate) {
-      entries = entries.filter(entry => entry.startTime >= startDate);
+      entries = entries.filter((entry) => entry.startTime >= startDate);
     }
 
     if (endDate) {
-      entries = entries.filter(entry => entry.startTime <= endDate);
+      entries = entries.filter((entry) => entry.startTime <= endDate);
     }
 
     return entries.reduce((total, entry) => total + (entry.duration || 0), 0);
@@ -186,7 +178,11 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
   /**
    * Get time statistics for a user
    */
-  async getUserStats(userId: string, startDate?: Date, endDate?: Date): Promise<{
+  async getUserStats(
+    userId: string,
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<{
     totalEntries: number;
     totalMinutes: number;
     totalHours: number;
@@ -197,11 +193,11 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
     let entries = await this.getByUserId(userId);
 
     if (startDate) {
-      entries = entries.filter(entry => entry.startTime >= startDate);
+      entries = entries.filter((entry) => entry.startTime >= startDate);
     }
 
     if (endDate) {
-      entries = entries.filter(entry => entry.startTime <= endDate);
+      entries = entries.filter((entry) => entry.startTime <= endDate);
     }
 
     const totalMinutes = entries.reduce((total, entry) => total + (entry.duration || 0), 0);
@@ -211,8 +207,8 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
       totalMinutes,
       totalHours: Math.round((totalMinutes / 60) * 10) / 10,
       averageMinutesPerEntry: entries.length > 0 ? Math.round(totalMinutes / entries.length) : 0,
-      manualEntries: entries.filter(e => e.isManual).length,
-      timerEntries: entries.filter(e => !e.isManual).length,
+      manualEntries: entries.filter((e) => e.isManual).length,
+      timerEntries: entries.filter((e) => !e.isManual).length,
     };
   }
 
@@ -227,7 +223,7 @@ class TimeEntryService extends BaseCrudService<TimeEntry> {
   ): Promise<boolean> {
     const userEntries = await this.getByUserId(userId);
 
-    return userEntries.some(entry => {
+    return userEntries.some((entry) => {
       if (excludeId && entry.id === excludeId) {
         return false;
       }

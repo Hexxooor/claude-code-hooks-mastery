@@ -299,8 +299,8 @@ class SeedService {
         code: 'CP-15',
         unit: 'meter',
         quantityUsed: 10,
-        unitPrice: 8.50,
-        totalCost: 85.00,
+        unitPrice: 8.5,
+        totalCost: 85.0,
       },
       {
         id: 'mat-2',
@@ -308,8 +308,8 @@ class SeedService {
         code: 'PVC-FIT-90',
         unit: 'piece',
         quantityUsed: 5,
-        unitPrice: 2.30,
-        totalCost: 11.50,
+        unitPrice: 2.3,
+        totalCost: 11.5,
       },
       {
         id: 'mat-3',
@@ -317,8 +317,8 @@ class SeedService {
         code: 'EC-2.5',
         unit: 'meter',
         quantityUsed: 50,
-        unitPrice: 1.20,
-        totalCost: 60.00,
+        unitPrice: 1.2,
+        totalCost: 60.0,
       },
       {
         id: 'mat-4',
@@ -326,8 +326,8 @@ class SeedService {
         code: 'LED-CEIL-40W',
         unit: 'piece',
         quantityUsed: 8,
-        unitPrice: 45.00,
-        totalCost: 360.00,
+        unitPrice: 45.0,
+        totalCost: 360.0,
       },
     ];
 
@@ -337,12 +337,14 @@ class SeedService {
         orderId: 'order-4',
         userId: '5',
         title: 'HVAC Maintenance Completion Report',
-        description: 'Completed routine maintenance on workshop HVAC system. All filters replaced, system cleaned and tested.',
+        description:
+          'Completed routine maintenance on workshop HVAC system. All filters replaced, system cleaned and tested.',
         status: 'approved',
         photos: [],
         materials: [materials[0], materials[1]],
         timeEntries: ['time-6'],
-        customerSignature: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+        customerSignature:
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
         customerName: 'Hans Fischer',
         signedAt: new Date(now.getTime() - 8 * 24 * 60 * 60 * 1000),
         createdAt: new Date(now.getTime() - 8 * 24 * 60 * 60 * 1000),
@@ -353,12 +355,14 @@ class SeedService {
         orderId: 'order-1',
         userId: '3',
         title: 'Kitchen Renovation Progress Report',
-        description: 'Phase 1 completed: Demolition and plumbing rough-in. Ready for inspection before proceeding with electrical work.',
+        description:
+          'Phase 1 completed: Demolition and plumbing rough-in. Ready for inspection before proceeding with electrical work.',
         status: 'submitted',
         photos: [],
         materials: [materials[0], materials[1]],
         timeEntries: ['time-1', 'time-2'],
-        customerSignature: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+        customerSignature:
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
         customerName: 'Klaus Schmidt',
         signedAt: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
         createdAt: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
@@ -369,7 +373,8 @@ class SeedService {
         orderId: 'order-3',
         userId: '4',
         title: 'Office Electrical Installation - Draft',
-        description: 'Partial installation completed for conference room. Pending completion of workstation areas.',
+        description:
+          'Partial installation completed for conference room. Pending completion of workstation areas.',
         status: 'draft',
         photos: [],
         materials: [materials[2], materials[3]],

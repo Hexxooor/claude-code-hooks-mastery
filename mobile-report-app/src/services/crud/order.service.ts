@@ -14,23 +14,23 @@ class OrderService extends BaseCrudService<Order> {
     let query = this.table.toCollection();
 
     if (filter.status) {
-      query = query.filter(order => order.status === filter.status);
+      query = query.filter((order) => order.status === filter.status);
     }
 
     if (filter.priority) {
-      query = query.filter(order => order.priority === filter.priority);
+      query = query.filter((order) => order.priority === filter.priority);
     }
 
     if (filter.assignedTo) {
-      query = query.filter(order => order.assignedTo.includes(filter.assignedTo!));
+      query = query.filter((order) => order.assignedTo.includes(filter.assignedTo!));
     }
 
     if (filter.dateFrom) {
-      query = query.filter(order => order.createdAt >= filter.dateFrom!);
+      query = query.filter((order) => order.createdAt >= filter.dateFrom!);
     }
 
     if (filter.dateTo) {
-      query = query.filter(order => order.createdAt <= filter.dateTo!);
+      query = query.filter((order) => order.createdAt <= filter.dateTo!);
     }
 
     return await query.toArray();
@@ -40,39 +40,28 @@ class OrderService extends BaseCrudService<Order> {
    * Get orders assigned to a specific user
    */
   async getByUserId(userId: string): Promise<Order[]> {
-    return await this.table
-      .filter(order => order.assignedTo.includes(userId))
-      .toArray();
+    return await this.table.filter((order) => order.assignedTo.includes(userId)).toArray();
   }
 
   /**
    * Get orders by status
    */
   async getByStatus(status: Order['status']): Promise<Order[]> {
-    return await this.table
-      .where('status')
-      .equals(status)
-      .toArray();
+    return await this.table.where('status').equals(status).toArray();
   }
 
   /**
    * Get orders by priority
    */
   async getByPriority(priority: Order['priority']): Promise<Order[]> {
-    return await this.table
-      .where('priority')
-      .equals(priority)
-      .toArray();
+    return await this.table.where('priority').equals(priority).toArray();
   }
 
   /**
    * Get orders due within a date range
    */
   async getDueInRange(startDate: Date, endDate: Date): Promise<Order[]> {
-    return await this.table
-      .where('dueDate')
-      .between(startDate, endDate)
-      .toArray();
+    return await this.table.where('dueDate').between(startDate, endDate).toArray();
   }
 
   /**
@@ -83,7 +72,7 @@ class OrderService extends BaseCrudService<Order> {
     return await this.table
       .where('dueDate')
       .below(now)
-      .and(order => order.status !== 'completed' && order.status !== 'cancelled')
+      .and((order) => order.status !== 'completed' && order.status !== 'cancelled')
       .toArray();
   }
 
@@ -123,14 +112,12 @@ class OrderService extends BaseCrudService<Order> {
 
     return {
       total: all.length,
-      pending: all.filter(o => o.status === 'pending').length,
-      inProgress: all.filter(o => o.status === 'in_progress').length,
-      completed: all.filter(o => o.status === 'completed').length,
-      cancelled: all.filter(o => o.status === 'cancelled').length,
-      overdue: all.filter(o =>
-        o.dueDate < now &&
-        o.status !== 'completed' &&
-        o.status !== 'cancelled'
+      pending: all.filter((o) => o.status === 'pending').length,
+      inProgress: all.filter((o) => o.status === 'in_progress').length,
+      completed: all.filter((o) => o.status === 'completed').length,
+      cancelled: all.filter((o) => o.status === 'cancelled').length,
+      overdue: all.filter(
+        (o) => o.dueDate < now && o.status !== 'completed' && o.status !== 'cancelled'
       ).length,
     };
   }
@@ -141,11 +128,12 @@ class OrderService extends BaseCrudService<Order> {
   async search(searchText: string): Promise<Order[]> {
     const text = searchText.toLowerCase();
     return await this.table
-      .filter(order =>
-        order.orderNumber.toLowerCase().includes(text) ||
-        order.customerName.toLowerCase().includes(text) ||
-        order.description.toLowerCase().includes(text) ||
-        order.customerAddress.toLowerCase().includes(text)
+      .filter(
+        (order) =>
+          order.orderNumber.toLowerCase().includes(text) ||
+          order.customerName.toLowerCase().includes(text) ||
+          order.description.toLowerCase().includes(text) ||
+          order.customerAddress.toLowerCase().includes(text)
       )
       .toArray();
   }

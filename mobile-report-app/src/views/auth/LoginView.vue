@@ -60,9 +60,7 @@
               type="checkbox"
               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-              Remember me
-            </label>
+            <label for="remember-me" class="ml-2 block text-sm text-gray-900"> Remember me </label>
           </div>
 
           <div class="text-sm">
@@ -162,9 +160,11 @@ const authError = computed(() => authStore.error);
 
 // Form validation
 const isFormValid = computed(() => {
-  return form.value.username.length > 0 &&
-         form.value.password.length > 0 &&
-         Object.keys(errors.value).length === 0;
+  return (
+    form.value.username.length > 0 &&
+    form.value.password.length > 0 &&
+    Object.keys(errors.value).length === 0
+  );
 });
 
 // Validate individual field
@@ -215,7 +215,7 @@ const handleLogin = async () => {
     authStore.setupTokenRefresh();
 
     // Redirect to intended page or dashboard
-    const redirect = route.query.redirect as string || '/dashboard';
+    const redirect = (route.query.redirect as string) || '/dashboard';
     router.push(redirect);
   } catch (error) {
     console.error('Login failed:', error);
