@@ -32,15 +32,23 @@
               required
               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               :class="{ 'border-red-300': errors.orderId }"
+              :disabled="orders.length === 0"
             >
-              <option value="">Select an Order</option>
+              <option value="">
+                {{ orders.length === 0 ? 'No orders available' : 'Select an Order' }}
+              </option>
               <option v-for="order in orders" :key="order.id" :value="order.id">
                 {{ order.orderNumber }} - {{ order.customerName }}
                 <span class="text-gray-500">({{ order.status }})</span>
               </option>
             </select>
             <p v-if="errors.orderId" class="mt-1 text-sm text-red-600">{{ errors.orderId }}</p>
-            <p class="mt-1 text-sm text-gray-500">Select the work order this report belongs to</p>
+            <p v-if="orders.length === 0" class="mt-1 text-sm text-amber-600">
+              No orders available. Please create some orders first to link reports.
+            </p>
+            <p v-else class="mt-1 text-sm text-gray-500">
+              Select the work order this report belongs to
+            </p>
           </div>
 
           <!-- Report Title -->
