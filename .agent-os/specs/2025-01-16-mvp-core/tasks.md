@@ -16,7 +16,7 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - Set up Git repository with proper .gitignore
   - Create basic README with setup instructions
 
-- [ ] **T002: Authentication System** (2 days)
+- [x] **T002: Authentication System** (2 days)
   - Implement JWT-based authentication service
   - Create login/logout components
   - Set up protected route middleware
