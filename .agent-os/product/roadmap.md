@@ -11,7 +11,7 @@
 
 ### Must-Have Features
 
-- **Order List View** (M - 1 week)
+- [x] **Order List View** (M - 1 week) - COMPLETED
   - Display active orders with basic info (order number, customer, status)
   - Simple filtering by status and date
   - Mock data integration for development
