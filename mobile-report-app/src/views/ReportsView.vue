@@ -282,6 +282,15 @@
       </div>
     </div>
 
+    <!-- Create/Edit Report Modal -->
+    <ReportModal
+      v-if="showCreateModal"
+      :report="selectedReport"
+      :is-edit="isEditMode"
+      @close="closeCreateModal"
+      @save="handleSaveReport"
+    />
+
     <!-- Delete Confirmation Modal -->
     <ConfirmModal
       v-if="showDeleteModal"
@@ -448,6 +457,26 @@ const confirmDelete = async () => {
 const closeDeleteModal = () => {
   showDeleteModal.value = false;
   reportToDelete.value = null;
+};
+
+const closeCreateModal = () => {
+  showCreateModal.value = false;
+  selectedReport.value = null;
+  isEditMode.value = false;
+};
+
+const handleSaveReport = async (reportData: Partial<Report>) => {
+  try {
+    if (isEditMode.value && selectedReport.value) {
+      await reportService.update(selectedReport.value.id!, reportData);
+    } else {
+      await reportService.create(reportData as Report);
+    }
+    await loadReports();
+    closeCreateModal();
+  } catch (error) {
+    console.error('Failed to save report:', error);
+  }
 };
 
 // PDF Export Functions

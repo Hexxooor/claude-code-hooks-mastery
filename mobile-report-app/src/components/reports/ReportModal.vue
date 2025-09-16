@@ -3,7 +3,10 @@
     class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
     @click="closeModal"
   >
-    <div class="relative top-10 mx-auto p-5 border max-w-2xl shadow-lg rounded-md bg-white" @click.stop>
+    <div
+      class="relative top-10 mx-auto p-5 border max-w-2xl shadow-lg rounded-md bg-white"
+      @click.stop
+    >
       <div class="mt-3">
         <div class="flex items-center justify-between">
           <h3 class="text-lg font-medium text-gray-900">
@@ -37,9 +40,7 @@
               </option>
             </select>
             <p v-if="errors.orderId" class="mt-1 text-sm text-red-600">{{ errors.orderId }}</p>
-            <p class="mt-1 text-sm text-gray-500">
-              Select the work order this report belongs to
-            </p>
+            <p class="mt-1 text-sm text-gray-500">Select the work order this report belongs to</p>
           </div>
 
           <!-- Report Title -->
@@ -72,14 +73,14 @@
               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               :class="{ 'border-red-300': errors.description }"
             />
-            <p v-if="errors.description" class="mt-1 text-sm text-red-600">{{ errors.description }}</p>
+            <p v-if="errors.description" class="mt-1 text-sm text-red-600">
+              {{ errors.description }}
+            </p>
           </div>
 
           <!-- Report Status -->
           <div>
-            <label for="status" class="block text-sm font-medium text-gray-700">
-              Status *
-            </label>
+            <label for="status" class="block text-sm font-medium text-gray-700"> Status * </label>
             <select
               id="status"
               v-model="form.status"
@@ -110,7 +111,9 @@
               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               :class="{ 'border-red-300': errors.customerName }"
             />
-            <p v-if="errors.customerName" class="mt-1 text-sm text-red-600">{{ errors.customerName }}</p>
+            <p v-if="errors.customerName" class="mt-1 text-sm text-red-600">
+              {{ errors.customerName }}
+            </p>
           </div>
 
           <!-- Help Text -->
@@ -121,8 +124,8 @@
               </div>
               <div class="ml-3">
                 <p class="text-sm text-blue-700">
-                  <strong>After creating:</strong> You can add photos, materials, and time entries to this report.
-                  Customer signatures can be collected for submitted reports.
+                  <strong>After creating:</strong> You can add photos, materials, and time entries
+                  to this report. Customer signatures can be collected for submitted reports.
                 </p>
               </div>
             </div>
@@ -142,7 +145,7 @@
               :disabled="loading"
               class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
-              {{ loading ? 'Creating...' : (isEdit ? 'Update Report' : 'Create Report') }}
+              {{ loading ? 'Creating...' : isEdit ? 'Update Report' : 'Create Report' }}
             </button>
           </div>
         </form>
@@ -155,9 +158,8 @@
 import { ref, reactive, watch, onMounted } from 'vue';
 import { XMarkIcon, InformationCircleIcon } from '@heroicons/vue/24/outline';
 import type { Report, Order } from '@/types/database';
-import reportService from '@/services/crud/report.service';
 import { orderService } from '@/services/crud';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth.store';
 
 interface Props {
   report?: Report | null;
@@ -171,7 +173,7 @@ interface Emits {
 
 const props = withDefaults(defineProps<Props>(), {
   report: null,
-  isEdit: false
+  isEdit: false,
 });
 
 const emit = defineEmits<Emits>();
@@ -183,7 +185,7 @@ const form = reactive({
   title: '',
   description: '',
   status: 'draft' as 'draft' | 'submitted' | 'approved',
-  customerName: ''
+  customerName: '',
 });
 
 const errors = reactive({
@@ -191,7 +193,7 @@ const errors = reactive({
   title: '',
   description: '',
   status: '',
-  customerName: ''
+  customerName: '',
 });
 
 const loading = ref(false);
@@ -202,27 +204,30 @@ onMounted(async () => {
   try {
     // Load active orders that can have reports
     const allOrders = await orderService.getAll();
-    orders.value = allOrders.filter(order =>
-      order.status === 'in_progress' ||
-      order.status === 'completed'
-    ).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    orders.value = allOrders
+      .filter((order) => order.status === 'in_progress' || order.status === 'completed')
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   } catch (error) {
     console.error('Failed to load orders:', error);
   }
 });
 
 // Watch for report prop changes
-watch(() => props.report, (newReport) => {
-  if (newReport) {
-    form.orderId = newReport.orderId;
-    form.title = newReport.title;
-    form.description = newReport.description;
-    form.status = newReport.status;
-    form.customerName = newReport.customerName || '';
-  } else {
-    resetForm();
-  }
-}, { immediate: true });
+watch(
+  () => props.report,
+  (newReport) => {
+    if (newReport) {
+      form.orderId = newReport.orderId;
+      form.title = newReport.title;
+      form.description = newReport.description;
+      form.status = newReport.status;
+      form.customerName = newReport.customerName || '';
+    } else {
+      resetForm();
+    }
+  },
+  { immediate: true }
+);
 
 const resetForm = () => {
   form.orderId = '';
@@ -293,7 +298,7 @@ const handleSubmit = async () => {
       title: form.title.trim(),
       description: form.description.trim(),
       status: form.status,
-      customerName: form.customerName.trim() || undefined
+      customerName: form.customerName.trim() || undefined,
     };
 
     if (!props.isEdit) {
