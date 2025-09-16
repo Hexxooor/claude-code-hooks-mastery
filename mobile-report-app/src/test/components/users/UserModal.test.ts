@@ -150,6 +150,9 @@ describe('UserModal', () => {
       await wrapper.find('form').trigger('submit');
       await wrapper.vm.$nextTick();
 
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
+
       expect(wrapper.text()).toContain('First name is required');
       expect(wrapper.text()).toContain('Last name is required');
       expect(wrapper.text()).toContain('Username is required');
@@ -176,6 +179,9 @@ describe('UserModal', () => {
       await wrapper.find('form').trigger('submit');
       await wrapper.vm.$nextTick();
 
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
+
       expect(wrapper.text()).toContain('Please enter a valid email address');
     });
 
@@ -198,12 +204,21 @@ describe('UserModal', () => {
       await wrapper.find('form').trigger('submit');
       await wrapper.vm.$nextTick();
 
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
+
       expect(wrapper.text()).toContain('Password must be at least 8 characters');
 
       // Test pattern requirements
       await wrapper.find('#password').setValue('12345678');
       await wrapper.find('form').trigger('submit');
       await wrapper.vm.$nextTick();
+
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(wrapper.text()).toContain(
         'Password must contain at least one uppercase letter, one lowercase letter, and one number'
@@ -228,6 +243,9 @@ describe('UserModal', () => {
       await wrapper.find('form').trigger('submit');
       await wrapper.vm.$nextTick();
 
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
+
       expect(wrapper.text()).toContain('Username must be at least 3 characters');
     });
   });
@@ -250,6 +268,9 @@ describe('UserModal', () => {
 
       await wrapper.find('form').trigger('submit');
       await wrapper.vm.$nextTick();
+
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       const saveEvent = wrapper.emitted('save');
       expect(saveEvent).toBeTruthy();
@@ -293,6 +314,9 @@ describe('UserModal', () => {
 
       await wrapper.find('form').trigger('submit');
       await wrapper.vm.$nextTick();
+
+      // Wait for async validation to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       const saveEvent = wrapper.emitted('save');
       expect(saveEvent).toBeTruthy();

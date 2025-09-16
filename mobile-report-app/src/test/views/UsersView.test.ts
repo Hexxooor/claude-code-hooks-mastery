@@ -11,6 +11,7 @@ vi.mock('@/services/crud', () => ({
     update: vi.fn(),
     delete: vi.fn(),
     getStats: vi.fn(),
+    setActiveStatus: vi.fn(),
   },
 }));
 
@@ -190,8 +191,12 @@ describe('UsersView', () => {
   });
 
   describe('Data Loading', () => {
-    it('should load users on component mount', () => {
-      mount(UsersView);
+    it('should load users on component mount', async () => {
+      const wrapper = mount(UsersView);
+      // Wait for onMounted lifecycle to complete
+      await wrapper.vm.$nextTick();
+      // Wait for async loadUsers function to complete
+      await new Promise(resolve => setTimeout(resolve, 10));
 
       expect(userService.getAll).toHaveBeenCalled();
       expect(userService.getStats).toHaveBeenCalled();
