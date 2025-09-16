@@ -90,11 +90,11 @@ describe('UserService', () => {
         }),
       };
 
-      userService.table.where = vi.fn().mockReturnValue(whereMock);
+      (userService as any).table.where = vi.fn().mockReturnValue(whereMock);
 
       const result = await userService.getByUsername('johndoe');
 
-      expect(userService.table.where).toHaveBeenCalledWith('username');
+      expect((userService as any).table.where).toHaveBeenCalledWith('username');
       expect(whereMock.equals).toHaveBeenCalledWith('johndoe');
       expect(result).toEqual(mockUser);
     });
@@ -106,7 +106,7 @@ describe('UserService', () => {
         }),
       };
 
-      userService.table.where = vi.fn().mockReturnValue(whereMock);
+      (userService as any).table.where = vi.fn().mockReturnValue(whereMock);
 
       const result = await userService.getByUsername('nonexistent');
 
@@ -123,11 +123,11 @@ describe('UserService', () => {
         }),
       };
 
-      userService.table.where = vi.fn().mockReturnValue(whereMock);
+      (userService as any).table.where = vi.fn().mockReturnValue(whereMock);
 
       const result = await userService.getByEmail('john@example.com');
 
-      expect(userService.table.where).toHaveBeenCalledWith('email');
+      expect((userService as any).table.where).toHaveBeenCalledWith('email');
       expect(whereMock.equals).toHaveBeenCalledWith('john@example.com');
       expect(result).toEqual(mockUser);
     });
@@ -142,11 +142,11 @@ describe('UserService', () => {
         }),
       };
 
-      userService.table.where = vi.fn().mockReturnValue(whereMock);
+      (userService as any).table.where = vi.fn().mockReturnValue(whereMock);
 
       const result = await userService.getByRole('admin');
 
-      expect(userService.table.where).toHaveBeenCalledWith('role');
+      expect((userService as any).table.where).toHaveBeenCalledWith('role');
       expect(whereMock.equals).toHaveBeenCalledWith('admin');
       expect(result).toEqual(adminUsers);
     });
@@ -156,13 +156,13 @@ describe('UserService', () => {
     it('should return only active users', async () => {
       const activeUsers = mockUsers.filter((u) => u.isActive);
 
-      userService.table.filter = vi.fn().mockReturnValue({
+      (userService as any).table.filter = vi.fn().mockReturnValue({
         toArray: vi.fn().mockResolvedValue(activeUsers),
       });
 
       const result = await userService.getActiveUsers();
 
-      expect(userService.table.filter).toHaveBeenCalled();
+      expect((userService as any).table.filter).toHaveBeenCalled();
       expect(result).toEqual(activeUsers);
       expect(result.every((u) => u.isActive)).toBe(true);
     });
@@ -307,7 +307,7 @@ describe('UserService', () => {
 
       userService.create = vi.fn().mockResolvedValue({ ...newUser, id: 'user-4' });
 
-      const result = await userService.create(newUser);
+      const result = await userService.create(newUser as User);
 
       expect(userService.create).toHaveBeenCalledWith(newUser);
       expect(result.id).toBeDefined();

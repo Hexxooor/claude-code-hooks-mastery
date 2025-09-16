@@ -37,7 +37,7 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - Add user listing with edit/delete functionality
   - Implement user activation/deactivation
 
-- [ ] **T005: Order List View** (3 days)
+- [x] **T005: Order List View** (3 days)
   - Design responsive order list component
   - Implement filtering by status and date
   - Add sorting capabilities (date, priority, customer)

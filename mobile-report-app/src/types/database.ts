@@ -1,4 +1,16 @@
 // Database entity types
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: 'admin' | 'manager' | 'worker';
+  isActive: boolean;
+  createdAt: Date;
+  lastLogin?: Date;
+}
+
 export interface Order {
   id?: string;
   orderNumber: string;

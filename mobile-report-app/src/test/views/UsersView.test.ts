@@ -111,8 +111,8 @@ describe('UsersView', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(userService.getAll).mockResolvedValue(mockUsers);
-    vi.mocked(userService.getStats).mockResolvedValue(mockStats);
+    (userService.getAll as any).mockResolvedValue(mockUsers);
+    (userService.getStats as any).mockResolvedValue(mockStats);
   });
 
   describe('Component Rendering', () => {
@@ -166,7 +166,7 @@ describe('UsersView', () => {
       await searchInput.setValue('john');
 
       // The component should filter users (tested via computed property)
-      expect(searchInput.element.value).toBe('john');
+      expect((searchInput.element as HTMLInputElement).value).toBe('john');
     });
   });
 
@@ -186,7 +186,7 @@ describe('UsersView', () => {
       await addButton.trigger('click');
 
       // Check if modal is shown (via data property)
-      expect(wrapper.vm.showModal).toBe(true);
+      expect((wrapper.vm as any).showModal).toBe(true);
     });
   });
 
@@ -196,7 +196,7 @@ describe('UsersView', () => {
       // Wait for onMounted lifecycle to complete
       await wrapper.vm.$nextTick();
       // Wait for async loadUsers function to complete
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(userService.getAll).toHaveBeenCalled();
       expect(userService.getStats).toHaveBeenCalled();
@@ -206,11 +206,11 @@ describe('UsersView', () => {
       const wrapper = mount(UsersView);
 
       // Initially should be in loading state
-      expect(wrapper.vm.loading).toBe(true);
+      expect((wrapper.vm as any).loading).toBe(true);
     });
 
     it('should handle loading errors gracefully', async () => {
-      vi.mocked(userService.getAll).mockRejectedValue(new Error('Failed to load'));
+      (userService.getAll as any).mockRejectedValue(new Error('Failed to load'));
 
       const wrapper = mount(UsersView);
 
@@ -219,7 +219,7 @@ describe('UsersView', () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
 
       // Should handle error without crashing
-      expect(wrapper.vm.loading).toBe(false);
+      expect((wrapper.vm as any).loading).toBe(false);
     });
   });
 
@@ -234,7 +234,7 @@ describe('UsersView', () => {
         isActive: true,
       };
 
-      vi.mocked(userService.create).mockResolvedValue({
+      (userService.create as any).mockResolvedValue({
         ...newUser,
         id: 'user-4',
         createdAt: new Date(),
@@ -243,7 +243,7 @@ describe('UsersView', () => {
       const wrapper = mount(UsersView);
 
       // Directly test the method
-      await wrapper.vm.handleSaveUser(newUser);
+      await (wrapper.vm as any).handleSaveUser(newUser);
 
       expect(userService.create).toHaveBeenCalledWith(newUser);
     });
@@ -254,27 +254,27 @@ describe('UsersView', () => {
         lastName: 'User',
       };
 
-      vi.mocked(userService.update).mockResolvedValue({
+      (userService.update as any).mockResolvedValue({
         ...mockUsers[0],
         ...updateData,
       });
 
       const wrapper = mount(UsersView);
-      wrapper.vm.selectedUser = mockUsers[0];
-      wrapper.vm.isEditMode = true;
+      (wrapper.vm as any).selectedUser = mockUsers[0];
+      (wrapper.vm as any).isEditMode = true;
 
-      await wrapper.vm.handleSaveUser(updateData);
+      await (wrapper.vm as any).handleSaveUser(updateData);
 
       expect(userService.update).toHaveBeenCalledWith('user-1', updateData);
     });
 
     it('should call delete service when deleting user', async () => {
-      vi.mocked(userService.delete).mockResolvedValue(undefined);
+      (userService.delete as any).mockResolvedValue(undefined);
 
       const wrapper = mount(UsersView);
-      wrapper.vm.userToDelete = mockUsers[0];
+      (wrapper.vm as any).userToDelete = mockUsers[0];
 
-      await wrapper.vm.confirmDelete();
+      await (wrapper.vm as any).confirmDelete();
 
       expect(userService.delete).toHaveBeenCalledWith('user-1');
     });
@@ -284,32 +284,32 @@ describe('UsersView', () => {
     it('should have correct initial state', () => {
       const wrapper = mount(UsersView);
 
-      expect(wrapper.vm.users).toEqual([]);
-      expect(wrapper.vm.loading).toBe(true);
-      expect(wrapper.vm.showModal).toBe(false);
-      expect(wrapper.vm.showDeleteModal).toBe(false);
-      expect(wrapper.vm.selectedUser).toBeNull();
-      expect(wrapper.vm.userToDelete).toBeNull();
+      expect((wrapper.vm as any).users).toEqual([]);
+      expect((wrapper.vm as any).loading).toBe(true);
+      expect((wrapper.vm as any).showModal).toBe(false);
+      expect((wrapper.vm as any).showDeleteModal).toBe(false);
+      expect((wrapper.vm as any).selectedUser).toBeNull();
+      expect((wrapper.vm as any).userToDelete).toBeNull();
     });
 
     it('should close modal when close event emitted', async () => {
       const wrapper = mount(UsersView);
-      wrapper.vm.showModal = true;
+      (wrapper.vm as any).showModal = true;
 
-      await wrapper.vm.closeModal();
+      await (wrapper.vm as any).closeModal();
 
-      expect(wrapper.vm.showModal).toBe(false);
-      expect(wrapper.vm.selectedUser).toBeNull();
+      expect((wrapper.vm as any).showModal).toBe(false);
+      expect((wrapper.vm as any).selectedUser).toBeNull();
     });
 
     it('should close delete modal when cancel event emitted', async () => {
       const wrapper = mount(UsersView);
-      wrapper.vm.showDeleteModal = true;
+      (wrapper.vm as any).showDeleteModal = true;
 
-      await wrapper.vm.closeDeleteModal();
+      await (wrapper.vm as any).closeDeleteModal();
 
-      expect(wrapper.vm.showDeleteModal).toBe(false);
-      expect(wrapper.vm.userToDelete).toBeNull();
+      expect((wrapper.vm as any).showDeleteModal).toBe(false);
+      expect((wrapper.vm as any).userToDelete).toBeNull();
     });
   });
 });

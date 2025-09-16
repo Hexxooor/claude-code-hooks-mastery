@@ -94,6 +94,7 @@ class AuthService {
     user.lastLogin = new Date();
 
     // Remove password from response
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = user;
 
     // Store in localStorage if remember me
@@ -144,6 +145,7 @@ class AuthService {
       const newRefreshToken = this.generateMockToken(`refresh-${user.id}`);
 
       // Remove password from response
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userWithoutPassword } = user;
 
       // Update stored tokens

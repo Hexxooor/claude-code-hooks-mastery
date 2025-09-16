@@ -20,8 +20,8 @@ describe('UserModal', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Default mock implementations
-    vi.mocked(userService.isUsernameAvailable).mockResolvedValue(true);
-    vi.mocked(userService.isEmailAvailable).mockResolvedValue(true);
+    (userService.isUsernameAvailable as any).mockResolvedValue(true);
+    (userService.isEmailAvailable as any).mockResolvedValue(true);
   });
 
   describe('Create Mode', () => {
@@ -151,7 +151,7 @@ describe('UserModal', () => {
       await wrapper.vm.$nextTick();
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(wrapper.text()).toContain('First name is required');
       expect(wrapper.text()).toContain('Last name is required');
@@ -180,7 +180,7 @@ describe('UserModal', () => {
       await wrapper.vm.$nextTick();
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(wrapper.text()).toContain('Please enter a valid email address');
     });
@@ -205,7 +205,7 @@ describe('UserModal', () => {
       await wrapper.vm.$nextTick();
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(wrapper.text()).toContain('Password must be at least 8 characters');
 
@@ -215,10 +215,10 @@ describe('UserModal', () => {
       await wrapper.vm.$nextTick();
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(wrapper.text()).toContain(
         'Password must contain at least one uppercase letter, one lowercase letter, and one number'
@@ -244,7 +244,7 @@ describe('UserModal', () => {
       await wrapper.vm.$nextTick();
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(wrapper.text()).toContain('Username must be at least 3 characters');
     });
@@ -270,13 +270,13 @@ describe('UserModal', () => {
       await wrapper.vm.$nextTick();
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       const saveEvent = wrapper.emitted('save');
       expect(saveEvent).toBeTruthy();
 
       if (saveEvent) {
-        const userData = saveEvent[0][0];
+        const userData = saveEvent[0][0] as any;
         expect(userData).toMatchObject({
           firstName: 'John',
           lastName: 'Doe',
@@ -316,13 +316,13 @@ describe('UserModal', () => {
       await wrapper.vm.$nextTick();
 
       // Wait for async validation to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       const saveEvent = wrapper.emitted('save');
       expect(saveEvent).toBeTruthy();
 
       if (saveEvent) {
-        const userData = saveEvent[0][0];
+        const userData = saveEvent[0][0] as any;
         expect(userData).toMatchObject({
           firstName: 'Jane',
           lastName: 'Doe',
